@@ -1,4 +1,5 @@
 import coverage
+import tempfile
 
 def myfun(x):
     if x:
@@ -7,8 +8,8 @@ def myfun(x):
         return False
 
 
-def collect_coverage():
-    cov = coverage.Coverage(data_file="mycoverage.dat",
+def collect_coverage(data_file):
+    cov = coverage.Coverage(data_file=data_file,
                             branch=True)
     cov.start()
 
@@ -18,8 +19,8 @@ def collect_coverage():
     cov.html_report()
     cov.save()
 
-def analyze_coverage():
-    cov = coverage.Coverage(data_file="mycoverage.dat",
+def analyze_coverage(data_file):
+    cov = coverage.Coverage(data_file=data_file,
                             branch=True)
     cov.load()
     cov.report(file=open('report.dat', 'w'))
@@ -31,8 +32,8 @@ def analyze_coverage():
     print("Last " + s)
 
 
-def annotate_coverage():
-    cov = coverage.Coverage(data_file="mycoverage.dat",
+def annotate_coverage(data_file):
+    cov = coverage.Coverage(data_file=data_file,
                             branch=True)
     cov.load()
     cov.annotate()
@@ -40,6 +41,8 @@ def annotate_coverage():
 
     
 if __name__ == "__main__":
-    collect_coverage()
-    analyze_coverage()
-    annotate_coverage()
+    _, cov_dat = tempfile.mkstemp()
+    
+    collect_coverage(cov_dat)
+    analyze_coverage(cov_dat)
+    annotate_coverage(cov_dat)
