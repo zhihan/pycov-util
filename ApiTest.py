@@ -30,6 +30,16 @@ def analyze_coverage():
     print("Missing " + repr(missing))
     print("Last " + s)
 
+
+def annotate_coverage():
+    cov = coverage.Coverage(data_file="mycoverage.dat",
+                            branch=True)
+    cov.load()
+    cov.annotate()
+    
+
+    
 if __name__ == "__main__":
     collect_coverage()
     analyze_coverage()
+    annotate_coverage()
